@@ -24,7 +24,6 @@ export default function GameScreen() {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const pulseRef = useRef<Animated.CompositeAnimation | null>(null);
 
-
   const getPrefixes = (words: string[]) => {
     const prefixSet = new Set<string>();
     words.forEach(word => {
@@ -164,7 +163,7 @@ export default function GameScreen() {
       scores.push(newScore);
       await AsyncStorage.setItem('leaderboard', JSON.stringify(scores));
     } catch (error) {
-      console.error('Failed to save score:', error);
+      // console.error('Failed to save score:', error);
     }
   };
 
@@ -178,16 +177,16 @@ export default function GameScreen() {
 
    if (gameOver) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Game Over</Text>
-        <Text style={styles.subtitle}>Score: {score}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleRetry}>
-          <Text style={styles.buttonText}>Retry</Text>
+      <ImageBackground source={require('../assets/images/gamebg3.jpg')} style={styles.container} resizeMode="cover">
+        <Text style={styles.Gover}>Game Over</Text>
+        <Text style={styles.Gscore}>Score: {score}</Text>
+        <TouchableOpacity style={styles.retrybtn} onPress={handleRetry}>
+          <Text style={styles.btntxt}>Retry</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => router.replace('/')}>
-          <Text style={styles.buttonText}>Back to Home</Text>
+        <TouchableOpacity style={styles.backbtn} onPress={() => router.replace('/')}>
+          <Text style={styles.btntxt}>Back to Home</Text>
         </TouchableOpacity>
-      </View>
+      </ImageBackground>
     );
   }
 
@@ -231,7 +230,7 @@ export default function GameScreen() {
           onPress={handlePass}
           disabled={passesLeft === 0}
         >
-        <Text style={styles.buttonText}>Pass [{passesLeft} left]</Text>
+        <Text style={styles.btntxt}>Pass [{passesLeft} left]</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.submitbtn} onPress={handleSubmit}>
@@ -256,7 +255,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    color: '#fff',
+    color: '#000',
     fontWeight: 'bold',
     marginBottom: 16,
     
@@ -308,16 +307,16 @@ const styles = StyleSheet.create({
   passbtn: {
     width: '40%',
     height: 50,
-    backgroundColor: '#fc000c',
+    // backgroundColor: '#fc000c', 12689c
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
   },
-  button: {
-    width: '100%',
+  retrybtn: {
+    width: '90%',
     height: 50,
-    backgroundColor: '#3d7eff',
+    backgroundColor: '#ffa61d',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -328,7 +327,21 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 8,
   },
-  buttonText: {
+  backbtn: {
+    width: '90%',
+    height: 50,
+    backgroundColor: '#12689c',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
+  btntxt: {
     color: '#fff',
     fontSize: 23,
     fontWeight: '600',
@@ -363,5 +376,20 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     gap: 10,
+  },
+  Gover: {
+    fontSize: 35,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#5e0d30",
+    marginTop: 70,
+    fontFamily: "PixelifySans",
+  },
+  Gscore: {
+    fontSize: 30,
+    color: '#333',
+    marginBottom: 20,
+    textAlign: 'center',
   },
 });
